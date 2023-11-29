@@ -15,7 +15,7 @@ cp $fileimg $HOME/builds/system-$timestamp.img
 echo
 
 echo "--> Generating XZ file"
-# xz -cv $fileimg -T0 > $filexz
+xz -cv $fileimg -T0 > $filexz
 
 echo "--> Generating OTA json file"
 
