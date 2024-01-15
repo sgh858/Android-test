@@ -1,5 +1,6 @@
-OTA=$HOME/Android-OTA
+OTA=$HOME/Android-test
 OUT=$HOME/android-phh/out/target/product/tdgsi_arm64_ab
+ROM_variant=$(cat ~/android-phh/device/phh/treble/treble_arm64_bvN.mk | grep PRODUCT_MODEL | awk -F '[ -]' '{print $4}')
 
 version="$(date +v%Y.%m.%d)"
 
@@ -11,7 +12,14 @@ version=$version-$timestamp
 name="treble_arm64_bvN"
 fileimg="$OUT/system.img"
 filexz="$OTA/$name-13.0-$timestamp.img.xz"
-cp $fileimg $HOME/builds/system-$timestamp.img
+
+if [[ $ROM_variant == *bas* || $ROM_variant == *Bas* ]] ; then
+    echo "This is for base only, copy FW and exitted"
+    cp $fileimg $HOME/builds/system-$ROM_variant-$timestamp.img
+    exit 0
+fi
+
+cp $fileimg $HOME/builds/system-$ROM_variant-$timestamp.img
 
 echo
 
