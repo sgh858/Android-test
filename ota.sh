@@ -14,17 +14,20 @@ fileimg="$OUT/system.img"
 filexz="$OTA/$name-13.0-$timestamp.img.xz"
 
 if [[ $ROM_variant == *bas* || $ROM_variant == *Bas* ]] ; then
-    echo "This is for base only, copy FW and exitted"
+    echo "This is for base only, copy FW system-$ROM_variant-$timestamp.img and exitted"
     cp $fileimg $HOME/builds/system-$ROM_variant-$timestamp.img
     exit 0
 fi
 
 cp $fileimg $HOME/builds/system-$ROM_variant-$timestamp.img
 
-echo
+rm $OTA/*.img
+#echo "--> Generate Sparse Image"
+#img2simg $fileimg $OTA/system-$ROM_variant-$timestamp.img
+cp $fileimg $OTA/system-$ROM_variant-$timestamp.img
 
 echo "--> Delelte old and Generating new XZ file"
-rm *.xz
+rm $OTA/*.xz
 xz -cv $fileimg -T0 > $filexz
 
 echo "--> Generating OTA json file"
